@@ -17,6 +17,8 @@ char	*ft_access(char **paths, char **flag)
 	int		i;
 	char	*cmd_path;
 
+	if (access(flag[0], X_OK) == 0)
+		return (flag[0]);
 	i = 0;
 	while (paths[i])
 	{
@@ -48,8 +50,10 @@ void	ft_exec(char **paths, char **flag)
 			execv(cmd_path, flag);
 		wait(NULL);
 	}
-	// else if (cmd_path == NULL)
-	// 	ft_putstr("zsh: command not found: ");
-	// 	ft_putstr(flag[0]);
-	// 	ft_putchar('\n');
+	else if (cmd_path == NULL)
+	{
+		ft_putstr("Minishell: command not found: ");
+		ft_putstr(flag[0]);
+		ft_putchar('\n');
+	}
 }

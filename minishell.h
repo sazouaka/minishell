@@ -17,7 +17,6 @@
 # include <fcntl.h>
 
 # define BUFF_SIZE 32
-# define SIZE 100
 
 typedef struct		s_lst
 {
@@ -26,7 +25,7 @@ typedef struct		s_lst
 	struct s_lst	*next;
 }					t_lst;
 int					get_next_line(const int fd, char **line);
-char				**ft_split(char *buff);
+char				*ft_parse(char *buff, t_lst *head);
 t_lst				*ft_env(char **env);
 char				**ft_path(t_lst *head);
 void				ft_exec(char **paths, char **flag);

@@ -1,35 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   ft_isalnum.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sazouaka <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/10 16:51:51 by sazouaka          #+#    #+#             */
-/*   Updated: 2019/10/10 16:51:53 by sazouaka         ###   ########.fr       */
+/*   Created: 2018/10/14 12:14:06 by sazouaka          #+#    #+#             */
+/*   Updated: 2018/10/14 14:44:45 by sazouaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int ac, char **av, char **env)
+int	ft_isalnum(int c)
 {
-	char	*buff;
-	char	**flag;
-	char	**paths;
-	t_lst	*env_list;
-
-	env_list = ft_env(env);
-	paths = ft_path(env_list);
-	while (1)
-	{
-		write(1, "$> ", 3);
-		get_next_line(0, &buff);
-		flag = ft_strsplit(ft_parse(buff, env_list), 31);
-		if (flag[0] == NULL)
-			continue;
-		if (ft_strcmp("exit", flag[0]) == 0)
-			exit(0);
-		ft_exec(paths, flag);
-	}
+	if (ft_isalpha(c))
+		return (1);
+	if (ft_isdigit(c))
+		return (1);
+	return (0);
 }
