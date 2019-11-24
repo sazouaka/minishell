@@ -28,8 +28,21 @@ int	main(int ac, char **av, char **env)
 		flag = ft_strsplit(ft_parse(buff, env_list), 31);
 		if (flag[0] == NULL)
 			continue;
+		if (ft_strcmp(flag[0], "env") == 0)
+		{
+			ft_printlist(env_list);
+			continue;
+		}
+		if (ft_strcmp(flag[0], "cd") == 0)
+		{
+			ft_cd(flag, env_list);
+			continue;
+		}
 		if (ft_strcmp("exit", flag[0]) == 0)
 			exit(0);
 		ft_exec(paths, flag);
 	}
 }
+
+/*I still need to code (cd ..) and permission denied we I do cd for
+a directory with permission denied and cd - */

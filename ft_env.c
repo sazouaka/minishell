@@ -65,15 +65,28 @@ t_lst  *ft_env(char **env)
 	return (head);
 }
 
-// void    ft_printlist(t_lst *list)
-// {
-//     t_lst   *node;
+void    ft_printlist(t_lst *list)
+{
+    t_lst   *node;
+	char	*name;
+	char	*content;
+	int		i;
 
-//     node = list;
-//     while (node)
-//     {
-//         printf("%s=", node->name);
-//         printf("%s\n", node->content);
-//         node = node->next;
-//     }
-// }
+    node = list;
+    while (node)
+    {
+		i = 0;
+		name = ft_strdup(node->name);
+		while (name[i])
+			i++;
+        write(1, name, i + 1);
+		write(1, "=", 1);
+		i = 0;
+		content = ft_strdup(node->content);
+		while (content[i])
+			i++;
+        write(1, content, i);
+		write(1, "\n", 1);
+        node = node->next;
+    }
+}

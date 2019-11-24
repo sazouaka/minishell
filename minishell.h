@@ -15,6 +15,7 @@
 # include "libft/libft.h"
 # include <stdio.h>
 # include <fcntl.h>
+# include <dirent.h>
 
 # define BUFF_SIZE 32
 
@@ -29,6 +30,7 @@ char				*ft_parse(char *buff, t_lst *head);
 t_lst				*ft_env(char **env);
 char				**ft_path(t_lst *head);
 void				ft_exec(char **paths, char **flag);
-// void				ft_printlist(t_lst *list);
+void				ft_printlist(t_lst *list);
+void				ft_cd(char **flag, t_lst *head);
 
 #endif
