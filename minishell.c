@@ -44,5 +44,4 @@ int	main(int ac, char **av, char **env)
 	}
 }
 
-/*I still need to code (cd ..) and permission denied we I do cd for
-a directory with permission denied and cd - */
+/*I still need to code (cd -) and permission denied*/
