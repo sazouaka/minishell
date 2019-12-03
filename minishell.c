@@ -46,6 +46,8 @@ int	main(int ac, char **av, char **env)
 			}
 			continue;
 		}
+		else if (ft_strcmp(flag[0], "setenv") == 0)
+			ft_setenv(flag, env_list);
 		else if (flag[0] && ft_strcmp("exit", flag[0]) == 0)
 			exit(0);
 		else
@@ -54,4 +56,4 @@ int	main(int ac, char **av, char **env)
 	return (0);
 }
 
-/*I still need to code (cd -) and permission denied*/
+/*I still need to fix permission denied in cd */
