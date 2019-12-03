@@ -50,7 +50,7 @@ void	ft_exec(char **paths, char **flag)
 			execv(cmd_path, flag);
 		wait(NULL);
 	}
-	else if (cmd_path == NULL)
+	else if (cmd_path == NULL || flag[0] == NULL)
 	{
 		ft_putstr("Minishell: command not found: ");
 		ft_putstr(flag[0]);

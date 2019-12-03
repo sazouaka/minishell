@@ -28,20 +28,30 @@ int	main(int ac, char **av, char **env)
 		flag = ft_strsplit(ft_parse(buff, env_list), 31);
 		if (flag[0] == NULL)
 			continue;
-		if (ft_strcmp(flag[0], "env") == 0)
+		else if (ft_strcmp(flag[0], "env") == 0)
 		{
 			ft_printlist(env_list);
 			continue;
 		}
-		if (ft_strcmp(flag[0], "cd") == 0)
+		else if (ft_strcmp(flag[0], "cd") == 0)
 		{
-			ft_cd(flag, env_list);
+			if (flag[1] == NULL)
+				ft_cd_home(env_list);
+			else
+			{
+				if (ft_strcmp(flag[1], "-") == 0)
+					ft_cd_old(flag, env_list);
+				else
+					ft_cd(flag, env_list);
+			}
 			continue;
 		}
-		if (ft_strcmp("exit", flag[0]) == 0)
+		else if (flag[0] && ft_strcmp("exit", flag[0]) == 0)
 			exit(0);
-		ft_exec(paths, flag);
+		else
+			ft_exec(paths, flag);
 	}
+	return (0);
 }
 
 /*I still need to code (cd -) and permission denied*/

@@ -41,6 +41,11 @@ char *ft_parse(char *buff, t_lst *head)
 	j = 0;
 	while (buff[i])
 	{
+		if (buff[i] == 34 && buff[i + 1] == 34)
+		{
+			str[j] = 31;
+			return (str);
+		}
 		if (buff[i] && (buff[i] == ' ' || buff[i] == '\t'))
 		{
 			str[j] = 31;

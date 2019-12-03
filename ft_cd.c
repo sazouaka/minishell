@@ -12,6 +12,28 @@
 
 #include "minishell.h"
 
+void	ft_cd_home(t_lst *head)
+{
+	t_lst	*node;
+
+	chdir("/Users/sazouaka");
+	node = head;
+	while(node)
+	{
+		if (ft_strcmp(node->name, "OLDPWD") == 0)
+		{
+			free(node->content);
+			node->content = ft_strdup(node->next->content);
+		}
+		if (ft_strcmp(node->name, "PWD") == 0)
+		{
+			free(node->content);
+			node->content = ft_strdup("/Users/sazouaka");
+		}
+		node = node->next;
+	}
+}
+
 int		verify_type(char *file)
 {
 	struct  stat    st;
@@ -61,45 +83,18 @@ void	ft_cd_2(char **flag)
 	ft_putchar('\n');
 }
 
-void	ft_cd_3(t_lst *head)
-{
-	t_lst	*node;
-
-	chdir("/Users/sazouaka");
-	node = head;
-	while(node)
-	{
-		if (ft_strcmp(node->name, "OLDPWD") == 0)
-		{
-			free(node->content);
-			node->content = ft_strdup(node->next->content);
-		}
-		if (ft_strcmp(node->name, "PWD") == 0)
-		{
-			free(node->content);
-			node->content = ft_strdup("/Users/sazouaka");
-		}
-		node = node->next;
-	}
-}
-
 void	ft_cd(char **flag, t_lst *head)
 {
-    if (flag[1])
-    {
-        if (ft_strcmp(flag[1] , ".") == 0)
-            return;
-        if (verify_type(flag[1]) == 1)
-            ft_cd_1(flag, head);
-        else if (verify_type(flag[1]) == -1)
-            ft_cd_2(flag);
-        else if (verify_type(flag[1]) == 0)
-        {
-            ft_putstr("cd: not a directory: ");
-            ft_putstr(flag[1]);
-            ft_putchar('\n');
-        }
-    }
-    else
-        ft_cd_3(head);
+    if (ft_strcmp(flag[1] , ".") == 0)
+		return;
+	if (verify_type(flag[1]) == 1)
+		ft_cd_1(flag, head);
+	else if (verify_type(flag[1]) == -1)
+		ft_cd_2(flag);
+	else if (verify_type(flag[1]) == 0)
+	{
+		ft_putstr("cd: not a directory: ");
+		ft_putstr(flag[1]);
+		ft_putchar('\n');
+	}
 }
