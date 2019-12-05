@@ -79,14 +79,14 @@ void    ft_printlist(t_lst *list)
 		name = ft_strdup(node->name);
 		while (name[i])
 			i++;
-        write(1, name, i + 1);
-		write(1, "=", 1);
+        ft_putstr(name);
+		ft_putchar('=');
 		i = 0;
 		content = ft_strdup(node->content);
 		while (content[i])
 			i++;
-        write(1, content, i);
-		write(1, "\n", 1);
+		ft_putstr(content);
+		ft_putchar('\n');
         node = node->next;
     }
 }

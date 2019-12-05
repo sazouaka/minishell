@@ -37,5 +37,6 @@ void				ft_cd(char **flag, t_lst *head);
 void    			ft_cd_old(char **flag, t_lst *head);
 void				ft_cd_home(t_lst *head);
 void    			ft_setenv(char **flag, t_lst *head);
+void    			ft_unsetenv(char **flag, t_lst *head);
 
 #endif

@@ -30,7 +30,14 @@ int	main(int ac, char **av, char **env)
 			continue;
 		else if (ft_strcmp(flag[0], "env") == 0)
 		{
-			ft_printlist(env_list);
+			if (flag[1])
+			{
+				ft_putstr("env: ");
+				ft_putstr(flag[1]);
+				ft_putstr(": No such file or directory\n");
+			}
+			else
+				ft_printlist(env_list);
 			continue;
 		}
 		else if (ft_strcmp(flag[0], "cd") == 0)
@@ -48,6 +55,8 @@ int	main(int ac, char **av, char **env)
 		}
 		else if (ft_strcmp(flag[0], "setenv") == 0)
 			ft_setenv(flag, env_list);
+		else if (ft_strcmp(flag[0], "unsetenv") == 0)
+			ft_unsetenv(flag, env_list);
 		else if (flag[0] && ft_strcmp("exit", flag[0]) == 0)
 			exit(0);
 		else
