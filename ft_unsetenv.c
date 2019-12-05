@@ -12,27 +12,40 @@
 
 #include "minishell.h"
 
-void    ft_unsetenv(char **flag, t_lst *head)
+void    ft_unsetenv(char **flag, t_lst **head)
 {
     t_lst   *node;
-    t_lst   *tmp;
+    t_lst   *tmp1;
+    t_lst   *tmp2;
     int     i;
 
     i = 1;
     while (flag[i])
     {
-        node = head;
+        node = *head;
+        tmp2 = (*head)->next;
         while (node)
         {
             if (ft_strcmp(node->name, flag[i]) == 0)
             {
-                free(node->name);
-                free(node->content);
-                tmp->next = node->next;
-                free(node);
-                break;
+                if (node == *head)
+                {
+                    free((*head)->name);
+                    free((*head)->content);
+                    free(*head);
+                    *head = tmp2;
+                    break;
+                }
+                else
+                {
+                    free(node->name);
+                    free(node->content);
+                    tmp1->next = node->next;
+                    free(node);
+                    break;
+                }
             }
-            tmp = node;
+            tmp1 = node;
             node = node->next;
         }
         i++;

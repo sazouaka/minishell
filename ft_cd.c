@@ -52,14 +52,29 @@ int		verify_type(char *file)
 	return (0);
 }
 
+void	ft_pdenied(char **flag)
+{
+	DIR	*dir;
+
+	dir = opendir(flag[1]);
+	if (dir == NULL)
+	{
+		ft_putstr("cd: permission denied: ");
+		ft_putstr(flag[1]);
+		ft_putchar('\n');
+	}
+	return;
+}
+
 void	ft_cd_1(char **flag, t_lst *head)
 {
 	t_lst	*node;
-    char    *buff;
+	char    *buff;
 
+	ft_pdenied(flag);
 	chdir(flag[1]);
 	node = head;
-    buff = (char *)malloc(sizeof(char) * 1000);
+	buff = (char *)malloc(sizeof(char) * 1000);
 	while(node)
 	{
 		if (ft_strcmp(node->name, "OLDPWD") == 0)
@@ -85,7 +100,7 @@ void	ft_cd_2(char **flag)
 
 void	ft_cd(char **flag, t_lst *head)
 {
-    if (ft_strcmp(flag[1] , ".") == 0)
+	if (ft_strcmp(flag[1] , ".") == 0)
 		return;
 	if (verify_type(flag[1]) == 1)
 		ft_cd_1(flag, head);
@@ -98,3 +113,4 @@ void	ft_cd(char **flag, t_lst *head)
 		ft_putchar('\n');
 	}
 }
+

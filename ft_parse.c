@@ -27,7 +27,7 @@ char	*get_var_val(char *str, t_lst *head)
 	return (NULL);
 }
 
-char *ft_parse(char *buff, t_lst *head)
+char *ft_parse(char *flag, t_lst *head)
 {
 	int		i;
 	int		j;
@@ -39,44 +39,45 @@ char *ft_parse(char *buff, t_lst *head)
 	str = (char *)malloc(sizeof(char) * 1000);
 	i = 0;
 	j = 0;
-	while (buff[i])
+	while (flag[i])
 	{
-		if (buff[i] == 34 && buff[i + 1] == 34)
-		{
-			str[j] = 31;
-			return (str);
-		}
-		if (buff[i] && (buff[i] == ' ' || buff[i] == '\t'))
+		// if ((flag[i] == 34 && flag[i + 1] == 34) || (flag[i] == 39 && flag[i + 1] == 39))
+		// {
+		// 	str[j] = ' ';
+		// 	j++;
+		// 	i = i + 1;
+		// }
+		if (flag[i] && (flag[i] == ' ' || flag[i] == '\t'))
 		{
 			str[j] = 31;
 			j++;
 			i++;
 		}
-		else if (buff[i] == 39)
+		else if (flag[i] == 39)
 		{
 			i++;
-			while (buff[i] && buff[i] != 39)
+			while (flag[i] && flag[i] != 39)
 			{
-				str[j] = buff[i];
+				str[j] = flag[i];
 				j++;
 				i++;
 			}
 			i++;
 		}
-		else if (buff[i] == 34)
+		else if (flag[i] == 34)
 		{
 			i++;
-			if (buff[i] == '$')
+			if (flag[i] == '$')
 			{
 				i++;
 				start = i;
 				end = 0;
-				while (isalnum(buff[i]) || buff[i] == '_')
+				while (isalnum(flag[i]) || flag[i] == '_')
 				{
 					i++;
 					end++;
 				}
-				val = get_var_val(ft_strsub(buff, start, end), head);
+				val = get_var_val(ft_strsub(flag, start, end), head);
 				end = 0;
 				while (val[end])
 				{
@@ -85,25 +86,25 @@ char *ft_parse(char *buff, t_lst *head)
 					j++;
 				}
 			}
-			while (buff[i] && buff[i] != 34)
+			while (flag[i] && flag[i] != 34)
 			{
-				str[j] = buff[i];
+				str[j] = flag[i];
 				j++;
 				i++;
 			}
 			i++;
 		}
-		else if (buff[i] == '$')
+		else if (flag[i] == '$')
 		{
 			i++;
 			start = i;
 			end = 0;
-			while (isalnum(buff[i]) || buff[i] == '_')
+			while (isalnum(flag[i]) || flag[i] == '_')
 			{
 				i++;
 				end++;
 			}
-			val = get_var_val(ft_strsub(buff, start, end), head);
+			val = get_var_val(ft_strsub(flag, start, end), head);
 			end = 0;
 			while (val && val[end])
 			{
@@ -112,7 +113,7 @@ char *ft_parse(char *buff, t_lst *head)
 				j++;
 			}
 		}
-		else if (buff[i] == '~')
+		else if (flag[i] == '~')
 		{
 			i++;
 			val = get_var_val("HOME", head);
@@ -126,7 +127,7 @@ char *ft_parse(char *buff, t_lst *head)
 		}
 		else
 		{
-			str[j] = buff[i];
+			str[j] = flag[i];
 			i++;
 			j++;
 		}

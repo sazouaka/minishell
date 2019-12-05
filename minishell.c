@@ -23,7 +23,9 @@ int	main(int ac, char **av, char **env)
 	paths = ft_path(env_list);
 	while (1)
 	{
-		write(1, "$> ", 3);
+		ft_putstr("\x1B[35m");
+		ft_putstr("$> ");
+		ft_putstr("\x1b[39m");
 		get_next_line(0, &buff);
 		flag = ft_strsplit(ft_parse(buff, env_list), 31);
 		if (flag[0] == NULL)
@@ -40,6 +42,8 @@ int	main(int ac, char **av, char **env)
 				ft_printlist(env_list);
 			continue;
 		}
+		else if (ft_strcmp(flag[0], "echo") == 0)
+			ft_echo(flag);
 		else if (ft_strcmp(flag[0], "cd") == 0)
 		{
 			if (flag[1] == NULL)
@@ -56,7 +60,7 @@ int	main(int ac, char **av, char **env)
 		else if (ft_strcmp(flag[0], "setenv") == 0)
 			ft_setenv(flag, env_list);
 		else if (ft_strcmp(flag[0], "unsetenv") == 0)
-			ft_unsetenv(flag, env_list);
+			ft_unsetenv(flag, &env_list);
 		else if (flag[0] && ft_strcmp("exit", flag[0]) == 0)
 			exit(0);
 		else
@@ -65,4 +69,4 @@ int	main(int ac, char **av, char **env)
 	return (0);
 }
 
-/*I still need to fix permission denied in cd */
+/* I still need to fix permission denied in cd */
