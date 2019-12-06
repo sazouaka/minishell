@@ -32,7 +32,7 @@ char	*ft_access(char **paths, char **flag)
 	return (NULL);
 }
 
-void	ft_exec(char **paths, char **flag)
+void	ft_exec(char **paths, char **flag, char **env_tab)
 {
 	char	*cmd_path;
 	pid_t	pid;
@@ -47,7 +47,7 @@ void	ft_exec(char **paths, char **flag)
 			exit(1);
 		}
 		else if (pid == 0)
-			execv(cmd_path, flag);
+			execve(cmd_path, flag, env_tab);
 		wait(NULL);
 	}
 	else if (cmd_path == NULL || flag[0] == NULL)

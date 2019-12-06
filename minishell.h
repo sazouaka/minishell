@@ -16,8 +16,9 @@
 # include <stdio.h>
 # include <fcntl.h>
 # include <dirent.h>
-#include <sys/stat.h>
-#include <sys/types.h>
+# include <sys/stat.h>
+# include <sys/types.h>
+# include <signal.h>
 
 # define BUFF_SIZE 32
 
@@ -31,13 +32,15 @@ int					get_next_line(const int fd, char **line);
 char				*ft_parse(char *buff, t_lst *head);
 t_lst				*ft_env(char **env);
 char				**ft_path(t_lst *head);
-void				ft_exec(char **paths, char **flag);
+void				ft_exec(char **paths, char **flag, char **env_tab);
 void				ft_printlist(t_lst *list);
 void				ft_cd(char **flag, t_lst *head);
-void    			ft_cd_old(char **flag, t_lst *head);
+void    			ft_cd_old(t_lst *head);
 void				ft_cd_home(t_lst *head);
 void    			ft_setenv(char **flag, t_lst *head);
 void    			ft_unsetenv(char **flag, t_lst **head);
 void			    ft_echo(char **flag);
+char    			**env_tab_(t_lst *head);
+void    			ft_exit(int sig);
 
 #endif

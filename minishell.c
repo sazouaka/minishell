@@ -18,8 +18,13 @@ int	main(int ac, char **av, char **env)
 	char	**flag;
 	char	**paths;
 	t_lst	*env_list;
+	char	**env_tab;
 
+	if (ac != 1 || ft_strcmp(av[0], "./minishell") != 0)
+		return (0);
+	signal(SIGINT, ft_exit);
 	env_list = ft_env(env);
+	env_tab = env_tab_(env_list);
 	paths = ft_path(env_list);
 	while (1)
 	{
@@ -30,7 +35,7 @@ int	main(int ac, char **av, char **env)
 		flag = ft_strsplit(ft_parse(buff, env_list), 31);
 		if (flag[0] == NULL)
 			continue;
-		else if (ft_strcmp(flag[0], "env") == 0)
+		if (ft_strcmp(flag[0], "env") == 0 || ft_strcmp(flag[0], "/usr/bin/env") == 0)
 		{
 			if (flag[1])
 			{
@@ -51,7 +56,7 @@ int	main(int ac, char **av, char **env)
 			else
 			{
 				if (ft_strcmp(flag[1], "-") == 0)
-					ft_cd_old(flag, env_list);
+					ft_cd_old(env_list);
 				else
 					ft_cd(flag, env_list);
 			}
@@ -64,9 +69,7 @@ int	main(int ac, char **av, char **env)
 		else if (flag[0] && ft_strcmp("exit", flag[0]) == 0)
 			exit(0);
 		else
-			ft_exec(paths, flag);
+			ft_exec(paths, flag, env_tab);
 	}
 	return (0);
 }
-
-/* I still need to fix permission denied in cd */

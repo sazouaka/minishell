@@ -38,7 +38,6 @@ int		verify_type(char *file)
 {
 	struct  stat    st;
 	int             ret;
-	DIR             *d;
 
 	if ((ret = lstat(file, &st)) == 0)
 	{
@@ -52,7 +51,7 @@ int		verify_type(char *file)
 	return (0);
 }
 
-void	ft_pdenied(char **flag)
+int	ft_pdenied(char **flag)
 {
 	DIR	*dir;
 
@@ -62,8 +61,9 @@ void	ft_pdenied(char **flag)
 		ft_putstr("cd: permission denied: ");
 		ft_putstr(flag[1]);
 		ft_putchar('\n');
+		return (1);
 	}
-	return;
+	return(0);
 }
 
 void	ft_cd_1(char **flag, t_lst *head)
@@ -71,12 +71,14 @@ void	ft_cd_1(char **flag, t_lst *head)
 	t_lst	*node;
 	char    *buff;
 
-	ft_pdenied(flag);
+	if (ft_pdenied(flag))
+		return;
 	chdir(flag[1]);
 	node = head;
 	buff = (char *)malloc(sizeof(char) * 1000);
 	while(node)
 	{
+		printf("******\n");
 		if (ft_strcmp(node->name, "OLDPWD") == 0)
 		{
 			free(node->content);

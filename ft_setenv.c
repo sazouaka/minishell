@@ -15,6 +15,7 @@
 void    ft_setenv(char **flag, t_lst *head)
 {
     t_lst	*node;
+    int     i;
 
     if (flag[1] != NULL && flag[2] != NULL && flag[3] != NULL)
         ft_putstr("setenv: Too many arguments.\n");
@@ -27,6 +28,21 @@ void    ft_setenv(char **flag, t_lst *head)
         }
         else
         {
+            if (!(ft_isalpha(flag[1][0])) && flag[1][0] != '_')
+            {
+                ft_putstr("setenv: Variable name must begin with a letter.\n");
+                return;
+            }
+            i = 1;
+            while (flag[1][i])
+            {
+                if (!(ft_isalnum(flag[1][i])) && flag[1][i] != '_')
+                {
+                    ft_putstr("setenv: Variable name must contain alphanumeric characters.\n");
+                    return;
+                }
+                i++;
+            }
             node = head;
             while(node)
             {
