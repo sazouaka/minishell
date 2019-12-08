@@ -117,7 +117,7 @@ char *ft_parse(char *buff, t_lst *head)
 				j++;
 			}
 		}
-		else if (buff[i] == '~')
+		else if (buff[i] == '~' && ((buff[i - 1] == ' ' || i == 0) && (buff[i + 1] == ' ' || buff[i + 1] == '/' || buff[i + 1] == '\0')))
 		{
 			i++;
 			val = get_var_val("HOME", head);

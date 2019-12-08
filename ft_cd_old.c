@@ -14,24 +14,24 @@
 
 void    ft_cd_old(t_lst *head)
 {
-    t_lst	*node;
-    char    *buff;
+	char	*buff;
+	char	*old_d;
+	t_lst	*node;
 
 	node = head;
-    buff = (char *)malloc(sizeof(char) * 1000);
-	while(node)
+	
+	while (node)
 	{
 		if (ft_strcmp(node->name, "OLDPWD") == 0)
 		{
-	        chdir(node->content);
-			free(node->content);
-			node->content = ft_strdup(node->next->content);
-		}
-		if (ft_strcmp(node->name, "PWD") == 0)
-		{
-			free(node->content);
-			node->content = ft_strdup(getcwd(buff, 500));
+			buff = (char *)malloc(sizeof(char) * 1000);
+			old_d = node->content;
+			ft_change_d(head, "OLDPWD", getcwd(buff, 500));
+			chdir(old_d);
+			ft_change_d(head, "PWD", getcwd(buff, 500));
+			return;
 		}
 		node = node->next;
 	}
+	ft_putstr(": No such file or directory.\n");
 }

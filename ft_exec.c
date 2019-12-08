@@ -47,7 +47,11 @@ void	ft_exec(char **paths, char **flag, char **env_tab)
 			exit(1);
 		}
 		else if (pid == 0)
+		{
 			execve(cmd_path, flag, env_tab);
+			ft_putstr(flag[0]);
+			ft_putstr(": permission denied: \n");
+		}
 		wait(NULL);
 	}
 	else if (cmd_path == NULL || flag[0] == NULL)

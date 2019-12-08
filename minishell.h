@@ -42,5 +42,6 @@ void    			ft_unsetenv(char **flag, t_lst **head);
 void			    ft_echo(char **flag);
 char    			**env_tab_(t_lst *head);
 void    			ft_exit(int sig);
+void    			ft_change_d(t_lst *head, char *str1, char *str2);
 
 #endif

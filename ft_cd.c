@@ -12,39 +12,28 @@
 
 #include "minishell.h"
 
-void	ft_cd_home(t_lst *head)
-{
-	t_lst	*node;
-
-	chdir("/Users/sazouaka");
-	node = head;
-	while(node)
-	{
-		if (ft_strcmp(node->name, "OLDPWD") == 0)
-		{
-			free(node->content);
-			node->content = ft_strdup(node->next->content);
-		}
-		if (ft_strcmp(node->name, "PWD") == 0)
-		{
-			free(node->content);
-			node->content = ft_strdup("/Users/sazouaka");
-		}
-		node = node->next;
-	}
-}
-
 int		verify_type(char *file)
 {
 	struct  stat    st;
 	int             ret;
+	DIR				*dir;
 
 	if ((ret = lstat(file, &st)) == 0)
 	{
 		if (S_ISDIR(st.st_mode))
 			return (1);
+		if (S_ISLNK(st.st_mode))
+		{
+			if ((dir = opendir(file)) != NULL)
+			{
+				closedir(dir);
+				return (1);
+			}
+			else
+				return (2);
+		}
 		else
-			return (0);
+			return (2);
 	}
 	if (ret == -1)
 		return (-1);
@@ -61,36 +50,33 @@ int	ft_pdenied(char **flag)
 		ft_putstr("cd: permission denied: ");
 		ft_putstr(flag[1]);
 		ft_putchar('\n');
+		closedir(dir);
 		return (1);
 	}
+	closedir(dir);
 	return(0);
 }
 
-void	ft_cd_1(char **flag, t_lst *head)
+void	ft_cd_home(t_lst *head)
 {
-	t_lst	*node;
+	char	*buff;
+
+	buff = (char *)malloc(sizeof(char) * 1000);
+	ft_change_d(head, "OLDPWD", getcwd(buff, 500));
+	chdir("/Users/sazouaka");
+	ft_change_d(head, "PWD", getcwd(buff, 500));
+}
+
+void		ft_cd_1(char **flag, t_lst *head)
+{
 	char    *buff;
 
 	if (ft_pdenied(flag))
 		return;
-	chdir(flag[1]);
-	node = head;
 	buff = (char *)malloc(sizeof(char) * 1000);
-	while(node)
-	{
-		printf("******\n");
-		if (ft_strcmp(node->name, "OLDPWD") == 0)
-		{
-			free(node->content);
-			node->content = ft_strdup(node->next->content);
-		}
-		if (ft_strcmp(node->name, "PWD") == 0)
-		{
-			free(node->content);
-			node->content = ft_strdup(getcwd(buff, 500));
-		}
-		node = node->next;
-	}
+	ft_change_d(head, "OLDPWD", getcwd(buff, 500));
+	chdir(flag[1]);
+	ft_change_d(head, "PWD", getcwd(buff, 500));
 }
 
 void	ft_cd_2(char **flag)
