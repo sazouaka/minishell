@@ -32,7 +32,7 @@ char	*ft_access(char **paths, char **flag)
 	return (NULL);
 }
 
-void	ft_exec(char **paths, char **flag, char **env_tab)
+void	ft_exec(char **paths, char **flag, t_lst *env_list)
 {
 	char	*cmd_path;
 	pid_t	pid;
@@ -48,7 +48,7 @@ void	ft_exec(char **paths, char **flag, char **env_tab)
 		}
 		else if (pid == 0)
 		{
-			execve(cmd_path, flag, env_tab);
+			execve(cmd_path, flag, env_tab_(env_list));
 			ft_putstr(flag[0]);
 			ft_putstr(": permission denied: \n");
 		}

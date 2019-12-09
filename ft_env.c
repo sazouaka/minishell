@@ -22,6 +22,7 @@ t_lst  *ft_env(char **env)
 	int     start;
 
 	node = NULL;
+	head = NULL;
 	i = 0;
 	while (env[i])
 	{

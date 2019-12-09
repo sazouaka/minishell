@@ -18,13 +18,12 @@ int	main(int ac, char **av, char **env)
 	char	**flag;
 	char	**paths;
 	t_lst	*env_list;
-	char	**env_tab;
 
 	if (ac != 1 || ft_strcmp(av[0], "./minishell") != 0)
 		return (0);
 	signal(SIGINT, ft_exit);
 	env_list = ft_env(env);
-	env_tab = env_tab_(env_list);
+	// printf("|%s|\n", env_tab);
 	paths = ft_path(env_list);
 	while (1)
 	{
@@ -69,7 +68,7 @@ int	main(int ac, char **av, char **env)
 		else if (flag[0] && ft_strcmp("exit", flag[0]) == 0)
 			exit(0);
 		else
-			ft_exec(paths, flag, env_tab);
+			ft_exec(paths, flag, env_list);
 	}
 	return (0);
 }

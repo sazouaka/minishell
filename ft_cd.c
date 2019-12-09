@@ -60,11 +60,22 @@ int	ft_pdenied(char **flag)
 void	ft_cd_home(t_lst *head)
 {
 	char	*buff;
+	t_lst	*node;
 
 	buff = (char *)malloc(sizeof(char) * 1000);
-	ft_change_d(head, "OLDPWD", getcwd(buff, 500));
-	chdir("/Users/sazouaka");
-	ft_change_d(head, "PWD", getcwd(buff, 500));
+	node = head;
+	while (node)
+	{
+		if (ft_strcmp(node->name, "HOME") == 0)
+		{
+			ft_change_d(head, "OLDPWD", getcwd(buff, 500));
+			chdir(node->content);
+			ft_change_d(head, "PWD", getcwd(buff, 500));
+			return;
+		}
+		node = node->next;
+	}
+	ft_putstr("cd: no home directory.\n");
 }
 
 void		ft_cd_1(char **flag, t_lst *head)

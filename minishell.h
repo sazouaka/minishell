@@ -21,6 +21,7 @@
 # include <signal.h>
 
 # define BUFF_SIZE 32
+# define PATH_D "/usr/bin/:/bin/:/usr/sbin/:/sbin/:/usr/local/bin/:/usr/local/munki/"
 
 typedef struct		s_lst
 {
@@ -32,7 +33,7 @@ int					get_next_line(const int fd, char **line);
 char				*ft_parse(char *buff, t_lst *head);
 t_lst				*ft_env(char **env);
 char				**ft_path(t_lst *head);
-void				ft_exec(char **paths, char **flag, char **env_tab);
+void				ft_exec(char **paths, char **flag, t_lst *env_list);
 void				ft_printlist(t_lst *list);
 void				ft_cd(char **flag, t_lst *head);
 void    			ft_cd_old(t_lst *head);

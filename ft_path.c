@@ -22,19 +22,24 @@ char	**ft_path(t_lst *head)
 	node = head;
 	while (node && (ft_strcmp(node->name, "PATH") != 0))
 		node = node->next;
-	contenu = ft_strsplit(node->content, ':');
-	i = 0;
-	while (contenu[i])
-		i++;
-	path = (char **)malloc(sizeof(char *) * (i + 1));
-	i = 0;
-	while (contenu[i])
+	if (node)
 	{
-		path[i] = ft_strjoin(contenu[i], "/");
-		free(contenu[i]);
-		i++;
+		contenu = ft_strsplit(node->content, ':');
+		i = 0;
+		while (contenu[i])
+			i++;
+		path = (char **)malloc(sizeof(char *) * (i + 1));
+		i = 0;
+		while (contenu[i])
+		{
+			path[i] = ft_strjoin(contenu[i], "/");
+			free(contenu[i]);
+			i++;
+		}
+		path[i] = NULL;
+		free(contenu);
+		return (path);
 	}
-	path[i] = NULL;
-	free(contenu);
-	return (path);
+	else
+		return(ft_strsplit(PATH_D, ':'));
 }
