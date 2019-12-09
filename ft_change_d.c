@@ -16,6 +16,8 @@ void    ft_change_d(t_lst *head, char *str1, char *str2)
 {
     t_lst	*node;
 
+    if (!head)
+        return;
     node = head;
     while (node)
     {

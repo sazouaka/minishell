@@ -34,7 +34,8 @@ int	main(int ac, char **av, char **env)
 		flag = ft_strsplit(ft_parse(buff, env_list), 31);
 		if (flag[0] == NULL)
 			continue;
-		if (ft_strcmp(flag[0], "env") == 0 || ft_strcmp(flag[0], "/usr/bin/env") == 0)
+		if (ft_strcmp(flag[0], "env") == 0 || ft_strcmp(flag[0], "/usr/bin/env") == 0) /*a verifier la necessité de 
+														ft_strcmp(flag[0], "/usr/bin/env"..elle fonctionne bien sans cette condition !*/
 		{
 			if (flag[1])
 			{
@@ -72,3 +73,6 @@ int	main(int ac, char **av, char **env)
 	}
 	return (0);
 }
+
+
+// still need to fix setenv unsetenv whene there is no enviroment

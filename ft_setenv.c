@@ -17,6 +17,7 @@ void    ft_setenv(char **flag, t_lst *head)
     t_lst	*node;
     int     i;
 
+    node = NULL;
     if (flag[1] != NULL && flag[2] != NULL && flag[3] != NULL)
         ft_putstr("setenv: Too many arguments.\n");
     else

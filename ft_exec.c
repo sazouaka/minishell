@@ -17,12 +17,12 @@ char	*ft_access(char **paths, char **flag)
 	int		i;
 	char	*cmd_path;
 
-	if (access(flag[0], X_OK) == 0)
+	if (access(flag[0], F_OK) == 0)
 		return (flag[0]);
 	i = 0;
 	while (paths[i])
 	{
-		if (access(ft_strjoin(paths[i], flag[0]), X_OK) == 0)
+		if (access(ft_strjoin(paths[i], flag[0]), F_OK) == 0)
 		{
 			cmd_path = ft_strjoin(paths[i], flag[0]);
 			return (cmd_path);
@@ -56,8 +56,7 @@ void	ft_exec(char **paths, char **flag, t_lst *env_list)
 	}
 	else if (cmd_path == NULL || flag[0] == NULL)
 	{
-		ft_putstr("Minishell: command not found: ");
 		ft_putstr(flag[0]);
-		ft_putchar('\n');
+		ft_putstr(": command not found. \n");
 	}
 }
