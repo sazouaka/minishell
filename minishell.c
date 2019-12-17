@@ -12,24 +12,39 @@
 
 #include "minishell.h"
 
+int		g_sign;
+
+void    ft_signal(int sig)
+{
+
+	sig = 1;
+	ft_putstr("\x1B[35m");
+	ft_putstr("\n$> ");
+	ft_putstr("\x1b[39m");
+	g_sign = 1;
+}
+
 int	main(int ac, char **av, char **env)
 {
 	char	*buff;
 	char	**flag;
-	char	**paths;
 	t_lst	*env_list;
 
 	if (ac != 1 || ft_strcmp(av[0], "./minishell") != 0)
 		return (0);
-	signal(SIGINT, ft_exit);
+	signal(SIGINT, ft_signal);
 	env_list = ft_env(env);
-	// printf("|%s|\n", env_tab);
-	paths = ft_path(env_list);
+	g_sign = 0;
 	while (1)
 	{
-		ft_putstr("\x1B[35m");
-		ft_putstr("$> ");
-		ft_putstr("\x1b[39m");
+		if (g_sign == 0)
+		{
+			ft_putstr("\x1B[35m");
+			ft_putstr("$> ");
+			ft_putstr("\x1b[39m");
+		}
+		else
+			g_sign = 0;
 		get_next_line(0, &buff);
 		flag = ft_strsplit(ft_parse(buff, env_list), 31);
 		if (flag[0] == NULL)
@@ -69,10 +84,7 @@ int	main(int ac, char **av, char **env)
 		else if (flag[0] && ft_strcmp("exit", flag[0]) == 0)
 			exit(0);
 		else
-			ft_exec(paths, flag, env_list);
+			ft_exec(flag, env_list);
 	}
 	return (0);
 }
-
-
-// still need to fix setenv unsetenv whene there is no enviroment

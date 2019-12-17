@@ -32,11 +32,13 @@ char	*ft_access(char **paths, char **flag)
 	return (NULL);
 }
 
-void	ft_exec(char **paths, char **flag, t_lst *env_list)
+void	ft_exec(char **flag, t_lst *env_list)
 {
 	char	*cmd_path;
 	pid_t	pid;
+	char	**paths;
 
+	paths = ft_path(env_list);
 	cmd_path = ft_access(paths, flag);
 	if (cmd_path)
 	{
