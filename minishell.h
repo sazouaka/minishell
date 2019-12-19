@@ -29,6 +29,7 @@ typedef struct		s_lst
 	char			*content;
 	struct s_lst	*next;
 }					t_lst;
+
 int					get_next_line(const int fd, char **line);
 char				*ft_parse(char *buff, t_lst *head);
 t_lst				*ft_env(char **env);
@@ -43,5 +44,7 @@ void				ft_unsetenv(char **flag, t_lst **head);
 void				ft_echo(char **flag);
 char				**env_tab_(t_lst *head);
 void				ft_change_d(t_lst *head, char *str1, char *str2);
+void				free_tab(char **flag);
+int					verify_type(char *file);
 
 #endif

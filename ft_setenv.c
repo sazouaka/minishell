@@ -55,6 +55,7 @@ void    ft_setenv(char **flag, t_lst *head)
 					}
 					else
 					{
+						
 						free(node->content);
 						node->content = ft_strdup(flag[2]);
 					}
@@ -69,9 +70,13 @@ void    ft_setenv(char **flag, t_lst *head)
 			node = node->next;
 			node->name = ft_strdup(flag[1]);
 			if (flag[2] == NULL)
+			{
 				node->content = ft_strdup("");
+			}
 			else
+			{
 				node->content = ft_strdup(flag[2]);
+			}
 			node->next = NULL;
 		}
 	}

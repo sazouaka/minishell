@@ -29,6 +29,7 @@ void    ft_cd_old(t_lst *head)
 			ft_change_d(head, "OLDPWD", getcwd(buff, 500));
 			chdir(old_d);
 			ft_change_d(head, "PWD", getcwd(buff, 500));
+			free(buff);
 			return;
 		}
 		node = node->next;

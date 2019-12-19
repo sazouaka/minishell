@@ -80,7 +80,7 @@ void			ft_putendl(char const *s);
 void			ft_putendl_fd(char const *s, int fd);
 void			ft_putnbr_fd(int n, int fd);
 char			*ft_itoa(int n);
-char			**ft_strsplit(char const *s, char c);
+char			**ft_strsplit(char const *str, char c);
 void			ft_lstdelone(t_list **alst, void (*del)(void *, size_t));
 void			ft_ultimate_div_mod(int *a, int *b);
 void			ft_swap(int *a, int *b);

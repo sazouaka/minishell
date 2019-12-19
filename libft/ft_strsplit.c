@@ -45,26 +45,26 @@ static	int	ft_wordlen(char const *s, char c)
 	return (len);
 }
 
-char		**ft_strsplit(char const *s, char c)
+char		**ft_strsplit(char const *str, char c)
 {
 	size_t	i;
 	size_t	count;
 	char	**tab;
 
-	if (s == NULL)
+	if (str == NULL)
 		return (NULL);
-	count = ft_countword(s, c);
+	count = ft_countword(str, c);
 	if (!(tab = (char **)malloc((count + 1) * sizeof(char *))))
 		return (NULL);
 	i = 0;
 	while (count--)
 	{
-		while (*s == c && *s != '\0')
-			s++;
-		tab[i] = ft_strsub(s, 0, ft_wordlen(s, c));
+		while (*str == c && *str != '\0')
+			str++;
+		tab[i] = ft_strsub(str, 0, ft_wordlen(str, c));
 		if (tab[i] == 0)
 			return (0);
-		s = s + ft_wordlen(s, c);
+		str = str + ft_wordlen(str, c);
 		i++;
 	}
 	tab[i] = NULL;

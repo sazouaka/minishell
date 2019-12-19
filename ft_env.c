@@ -54,24 +54,13 @@ t_lst  *ft_env(char **env)
 void    ft_printlist(t_lst *head)
 {
     t_lst   *node;
-	char	*name;
-	char	*content;
-	int		i;
 
     node = head->next;
     while (node)
     {
-		i = 0;
-		name = ft_strdup(node->name);
-		while (name[i])
-			i++;
-        ft_putstr(name);
+        ft_putstr(node->name);
 		ft_putchar('=');
-		i = 0;
-		content = ft_strdup(node->content);
-		while (content[i])
-			i++;
-		ft_putstr(content);
+		ft_putstr(node->content);
 		ft_putchar('\n');
         node = node->next;
     }

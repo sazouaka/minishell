@@ -13,25 +13,41 @@
 
 #include "minishell.h"
 
-char	*get_var_val(char *str, t_lst *head)
+char	*get_var_val(char *str, int *end, t_lst *head)
 {
+	int		i;
+	char	*tmp;
 	t_lst	*node;
 
+	i = 0;
+	if (ft_isalpha(str[0]) || str[0] == '_')
+		i++;
+	while (str[i])
+	{
+		if (ft_isalnum(str[i]) || str[i] == '_')
+			i++;
+		else
+			break;
+	}
+	*end = i;
+	tmp = ft_strsub(str, 0, i);
 	node = head;
 	while (node)
 	{
-		if (ft_strcmp(str, node->name) == 0)
-			return (ft_strdup(node->content));
+		if (ft_strcmp(tmp, node->name) == 0)
+		{
+			free(tmp);
+			return (node->content);
+		}
 		node = node->next;
 	}
-	return (NULL);
+	return ("");
 }
 
 char *ft_parse(char *buff, t_lst *head)
 {
 	int		i;
 	int		j;
-	int		start;
 	int		end;
 	char	*str;
 	char	*val;
@@ -59,56 +75,49 @@ char *ft_parse(char *buff, t_lst *head)
 			if (buff[i] != 39)
 			{
 				ft_putstr("Unmatched '.\n");
-				return ("\0");
+				free(str);
+				return (ft_strnew(0));
 			}
 			i++;
 		}
 		else if (buff[i] == 34)
 		{
 			i++;
-			if (buff[i] == '$')
-			{
-				i++;
-				start = i;
-				end = 0;
-				while (isalnum(buff[i]) || buff[i] == '_')
-				{
-					i++;
-					end++;
-				}
-				val = get_var_val(ft_strsub(buff, start, end), head);
-				end = 0;
-				while (val[end])
-				{
-					str[j] = val[end];
-					end++;
-					j++;
-				}
-			}
 			while (buff[i] && buff[i] != 34)
 			{
-				str[j] = buff[i];
-				j++;
-				i++;
+				if (buff[i] == '$')
+				{
+					i++;
+					val = get_var_val(&buff[i], &end ,head);
+					i = i + end;
+					end = 0;
+					while (val[end])
+					{
+						str[j] = val[end];
+						end++;
+						j++;
+					}
+				}
+				else
+				{
+					str[j] = buff[i];
+					j++;
+					i++;
+				}
 			}
 			if (buff[i] != 34)
 			{
 				ft_putstr("Unmatched \".\n");
-				return ("\0");
+				free(str);
+				return (ft_strnew(0));
 			}
 			i++;
 		}
 		else if (buff[i] == '$')
 		{
 			i++;
-			start = i;
-			end = 0;
-			while (isalnum(buff[i]) || buff[i] == '_')
-			{
-				i++;
-				end++;
-			}
-			val = get_var_val(ft_strsub(buff, start, end), head);
+			val = get_var_val(&buff[i], &end, head);
+			i = i + end;
 			end = 0;
 			while (val && val[end])
 			{
@@ -120,7 +129,7 @@ char *ft_parse(char *buff, t_lst *head)
 		else if (buff[i] == '~' && ((buff[i - 1] == ' ' || i == 0) && (buff[i + 1] == ' ' || buff[i + 1] == '/' || buff[i + 1] == '\0')))
 		{
 			i++;
-			val = get_var_val("HOME", head);
+			val = get_var_val("HOME", &end, head);
 			end = 0;
 			while (val && val[end])
 			{
@@ -135,6 +144,12 @@ char *ft_parse(char *buff, t_lst *head)
 			i++;
 			j++;
 		}
+	}
+	str[j] = '\0';
+	if (j == 0)
+	{
+		free(str);
+		return (NULL);
 	}
 	return (str);
 }

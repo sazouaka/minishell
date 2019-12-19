@@ -50,7 +50,6 @@ int	ft_pdenied(char **flag)
 		ft_putstr("cd: permission denied: ");
 		ft_putstr(flag[1]);
 		ft_putchar('\n');
-		closedir(dir);
 		return (1);
 	}
 	closedir(dir);
@@ -71,11 +70,13 @@ void	ft_cd_home(t_lst *head)
 			ft_change_d(head, "OLDPWD", getcwd(buff, 500));
 			chdir(node->content);
 			ft_change_d(head, "PWD", getcwd(buff, 500));
+			free(buff);
 			return;
 		}
 		node = node->next;
 	}
 	ft_putstr("cd: no home directory.\n");
+	free(buff);
 }
 
 void		ft_cd_1(char **flag, t_lst *head)
@@ -88,6 +89,7 @@ void		ft_cd_1(char **flag, t_lst *head)
 	ft_change_d(head, "OLDPWD", getcwd(buff, 500));
 	chdir(flag[1]);
 	ft_change_d(head, "PWD", getcwd(buff, 500));
+	free(buff);
 }
 
 void	ft_cd_2(char **flag)
@@ -112,4 +114,3 @@ void	ft_cd(char **flag, t_lst *head)
 		ft_putchar('\n');
 	}
 }
-
