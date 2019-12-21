@@ -1,33 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split_test.c                                    :+:      :+:    :+:   */
+/*   ft_parse_len.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sazouaka <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/09 21:59:20 by sazouaka          #+#    #+#             */
-/*   Updated: 2019/11/09 21:59:22 by sazouaka         ###   ########.fr       */
+/*   Created: 2019/12/21 18:51:06 by sazouaka          #+#    #+#             */
+/*   Updated: 2019/12/21 18:51:08 by sazouaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_parse(char *buff, t_lst *head)
+int		ft_parse_len(char *buff, t_lst *head)
 {
 	int		i;
 	int		j;
 	int		end;
-	char	*str;
+	int		len;
 	char	*val;
 
-	str = (char *)malloc(sizeof(char) * (ft_parse_len(buff, head) + 1));
 	i = 0;
 	j = 0;
+	len = 0;
 	while (buff[i])
 	{
 		if (buff[i] && (buff[i] == ' ' || buff[i] == '\t'))
 		{
-			str[j] = 31;
+			len++;
 			j++;
 			i++;
 		}
@@ -36,15 +36,9 @@ char	*ft_parse(char *buff, t_lst *head)
 			i++;
 			while (buff[i] && buff[i] != 39)
 			{
-				str[j] = buff[i];
+				len++;
 				j++;
 				i++;
-			}
-			if (buff[i] != 39)
-			{
-				ft_putstr("Unmatched '.\n");
-				free(str);
-				return (ft_strnew(0));
 			}
 			i++;
 		}
@@ -62,23 +56,17 @@ char	*ft_parse(char *buff, t_lst *head)
 					end = 0;
 					while (val[end])
 					{
-						str[j] = val[end];
+						len++;
 						end++;
 						j++;
 					}
 				}
 				else
 				{
-					str[j] = buff[i];
+					len++;
 					j++;
 					i++;
 				}
-			}
-			if (buff[i] != 34)
-			{
-				ft_putstr("Unmatched \".\n");
-				free(str);
-				return (ft_strnew(0));
 			}
 			i++;
 		}
@@ -91,7 +79,7 @@ char	*ft_parse(char *buff, t_lst *head)
 			end = 0;
 			while (val && val[end])
 			{
-				str[j] = val[end];
+				len++;
 				end++;
 				j++;
 			}
@@ -105,23 +93,17 @@ char	*ft_parse(char *buff, t_lst *head)
 			end = 0;
 			while (val && val[end])
 			{
-				str[j] = val[end];
+				len++;
 				end++;
 				j++;
 			}
 		}
 		else
 		{
-			str[j] = buff[i];
+			len++;
 			i++;
 			j++;
 		}
 	}
-	str[j] = '\0';
-	if (j == 0)
-	{
-		free(str);
-		return (NULL);
-	}
-	return (str);
+	return (len);
 }

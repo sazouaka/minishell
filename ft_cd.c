@@ -17,7 +17,7 @@ int		ft_pdenied(char **flag)
 	DIR	*dir;
 
 	dir = opendir(flag[1]);
-	if (dir == NULL || access(flag[1], X_OK) != 0 )
+	if (dir == NULL || access(flag[1], X_OK) != 0)
 	{
 		ft_putstr("cd: permission denied: ");
 		ft_putstr(flag[1]);

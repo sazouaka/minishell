@@ -1,41 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   verify_type.c                                      :+:      :+:    :+:   */
+/*   free_list.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sazouaka <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/21 01:13:58 by sazouaka          #+#    #+#             */
-/*   Updated: 2019/12/21 01:14:16 by sazouaka         ###   ########.fr       */
+/*   Created: 2019/12/21 22:07:07 by sazouaka          #+#    #+#             */
+/*   Updated: 2019/12/21 22:07:14 by sazouaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		verify_type(char *file)
+void	free_list(t_lst *head)
 {
-	struct stat			st;
-	int					ret;
-	DIR					*dir;
+	t_lst	*tmp;
 
-	if ((ret = lstat(file, &st)) == 0)
+	if (head == NULL)
+		return ;
+	while (head)
 	{
-		if (S_ISDIR(st.st_mode))
-			return (1);
-		if (S_ISLNK(st.st_mode))
-		{
-			if ((dir = opendir(file)) != NULL)
-			{
-				closedir(dir);
-				return (1);
-			}
-			else
-				return (2);
-		}
-		else
-			return (2);
+		tmp = head;
+		head = head->next;
+		free(tmp->name);
+		free(tmp->content);
+		free(tmp);
 	}
-	if (ret == -1)
-		return (-1);
-	return (0);
 }

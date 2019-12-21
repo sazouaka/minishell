@@ -31,7 +31,8 @@ char	*ft_access(char **paths, char **flag)
 	int		i;
 	char	*cmd_path;
 
-	if (access(flag[0], F_OK) == 0 && verify_type(flag[0]) == 2 && is_path(flag[0]))
+	if (access(flag[0], F_OK) == 0 && verify_type(flag[0]) == 2
+	&& is_path(flag[0]))
 		return (flag[0]);
 	if (!paths)
 		return (NULL);
@@ -89,7 +90,8 @@ void	ft_exec(char **flag, t_lst *env_list)
 		ft_exec_1(cmd_path, flag, env_list);
 	else
 	{
-		if (access(flag[0], F_OK) == 0 && verify_type(flag[0]) == 1 && is_path(flag[0]))
+		if (access(flag[0], F_OK) == 0 && verify_type(flag[0]) == 1
+		&& is_path(flag[0]))
 		{
 			ft_putstr(flag[0]);
 			ft_putstr(": permission denied.\n");
