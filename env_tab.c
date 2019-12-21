@@ -14,10 +14,10 @@
 
 int		ft_count(t_lst *head)
 {
-	t_lst   *node;
+	t_lst	*node;
 	int		i;
-	
-	node = head;
+
+	node = head->next;
 	i = 0;
 	while (node)
 	{
@@ -27,14 +27,14 @@ int		ft_count(t_lst *head)
 	return (i);
 }
 
-char    **env_tab_(t_lst *head)
+char	**env_tab_(t_lst *head)
 {
-	char    **env_tab;
-	t_lst   *node;
+	char	**env_tab;
+	t_lst	*node;
 	int		i;
-	
+
 	env_tab = (char **)malloc(sizeof(char *) * (ft_count(head) + 1));
-	node = head;
+	node = head->next;
 	i = 0;
 	while (node)
 	{

@@ -16,8 +16,7 @@ int		g_sign;
 
 void    ft_signal(int sig)
 {
-
-	sig = 1;
+	sig = 0;
 	ft_putstr("\x1B[35m");
 	ft_putstr("\n$> ");
 	ft_putstr("\x1b[39m");
@@ -46,6 +45,8 @@ void	free_list(t_lst *head)
 	{
 		tmp = head;
 		head = head->next;
+		free(tmp->name);
+		free(tmp->content);
 		free(tmp);
 	}
 }
@@ -83,14 +84,18 @@ void	ft_builtins_2(char **flag, t_lst *env_list)
 	else if (ft_strcmp(flag[0], "unsetenv") == 0)
 		ft_unsetenv(flag, &env_list);
 	else if (flag[0] && ft_strcmp("exit", flag[0]) == 0)
+	{
+		free_list(env_list);
+		free_tab(flag);
 		exit(0);
+	}
 	else
 		ft_exec(flag, env_list);
 }
 
 void	ft_builtins_1(char **flag, t_lst *env_list)
 {
-	if (ft_strcmp(flag[0], "env") == 0 || ft_strcmp(flag[0], "/usr/bin/env") == 0) /*a verifier la necessité de ft_strcmp(flag[0], "/usr/bin/env"..elle fonctionne bien sans cette condition !*/
+	if (ft_strcmp(flag[0], "env") == 0) /*a verifier la necessité de ft_strcmp(flag[0], "/usr/bin/env"..elle fonctionne bien sans cette condition !*/
 	{
 		if (flag[1])
 		{
@@ -152,5 +157,4 @@ int	main(int ac, char **av, char **env)
 	return (0);
 }
 /* il reste un probleme quand je tape ctrl c et je tape entré ou j'ecrie clear le prompt se disparait */
-/* quand je lance un flag qui existe mais qui nest pas une commande a executer j'obtient pas permission denied
-par contre, le child se creer !*/
+/* le probleme de 1000 location dans ft_parse */

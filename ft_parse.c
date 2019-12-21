@@ -10,41 +10,105 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "minishell.h"
 
-char	*get_var_val(char *str, int *end, t_lst *head)
+int		ft_len(char *buff, t_lst *head)
 {
 	int		i;
-	char	*tmp;
-	t_lst	*node;
+	int		j;
+	int		end;
+	int		len;
+	char	*val;
 
 	i = 0;
-	if (ft_isalpha(str[0]) || str[0] == '_')
-		i++;
-	while (str[i])
+	j = 0;
+	len = 0;
+	while (buff[i])
 	{
-		if (ft_isalnum(str[i]) || str[i] == '_')
-			i++;
-		else
-			break;
-	}
-	*end = i;
-	tmp = ft_strsub(str, 0, i);
-	node = head;
-	while (node)
-	{
-		if (ft_strcmp(tmp, node->name) == 0)
+		if (buff[i] && (buff[i] == ' ' || buff[i] == '\t'))
 		{
-			free(tmp);
-			return (node->content);
+			len++;
+			j++;
+			i++;
 		}
-		node = node->next;
+		else if (buff[i] == 39)
+		{
+			i++;
+			while (buff[i] && buff[i] != 39)
+			{
+				len++;
+				j++;
+				i++;
+			}
+			i++;
+		}
+		else if (buff[i] == 34)
+		{
+			i++;
+			while (buff[i] && buff[i] != 34)
+			{
+				if (buff[i] == '$' && (ft_isalnum(buff[i + 1])
+				|| buff[i + 1] == '_'))
+				{
+					i++;
+					val = get_var_val(&buff[i], &end, head);
+					i = i + end;
+					end = 0;
+					while (val[end])
+					{
+						len++;
+						end++;
+						j++;
+					}
+				}
+				else
+				{
+					len++;
+					j++;
+					i++;
+				}
+			}
+			i++;
+		}
+		else if (buff[i] == '$' && (ft_isalnum(buff[i + 1])
+		|| buff[i + 1] == '_'))
+		{
+			i++;
+			val = get_var_val(&buff[i], &end, head);
+			i = i + end;
+			end = 0;
+			while (val && val[end])
+			{
+				len++;
+				end++;
+				j++;
+			}
+		}
+		else if (buff[i] == '~' && ((buff[i - 1] == ' ' || i == 0)
+		&& (buff[i + 1] == ' ' || buff[i + 1] == '/'
+		|| buff[i + 1] == '\0')))
+		{
+			i++;
+			val = get_var_val("HOME", &end, head);
+			end = 0;
+			while (val && val[end])
+			{
+				len++;
+				end++;
+				j++;
+			}
+		}
+		else
+		{
+			len++;
+			i++;
+			j++;
+		}
 	}
-	return ("");
+	return (len);
 }
 
-char *ft_parse(char *buff, t_lst *head)
+char	*ft_parse(char *buff, t_lst *head)
 {
 	int		i;
 	int		j;
@@ -52,7 +116,7 @@ char *ft_parse(char *buff, t_lst *head)
 	char	*str;
 	char	*val;
 
-	str = (char *)malloc(sizeof(char) * 1000);
+	str = (char *)malloc(sizeof(char) * (ft_len(buff, head) + 1));
 	i = 0;
 	j = 0;
 	while (buff[i])
@@ -85,10 +149,11 @@ char *ft_parse(char *buff, t_lst *head)
 			i++;
 			while (buff[i] && buff[i] != 34)
 			{
-				if (buff[i] == '$')
+				if (buff[i] == '$' && (ft_isalnum(buff[i + 1])
+				|| buff[i + 1] == '_'))
 				{
 					i++;
-					val = get_var_val(&buff[i], &end ,head);
+					val = get_var_val(&buff[i], &end, head);
 					i = i + end;
 					end = 0;
 					while (val[end])
@@ -113,7 +178,8 @@ char *ft_parse(char *buff, t_lst *head)
 			}
 			i++;
 		}
-		else if (buff[i] == '$')
+		else if (buff[i] == '$' && (ft_isalnum(buff[i + 1])
+		|| buff[i + 1] == '_'))
 		{
 			i++;
 			val = get_var_val(&buff[i], &end, head);
@@ -126,7 +192,9 @@ char *ft_parse(char *buff, t_lst *head)
 				j++;
 			}
 		}
-		else if (buff[i] == '~' && ((buff[i - 1] == ' ' || i == 0) && (buff[i + 1] == ' ' || buff[i + 1] == '/' || buff[i + 1] == '\0')))
+		else if (buff[i] == '~' && ((buff[i - 1] == ' ' || i == 0)
+		&& (buff[i + 1] == ' ' || buff[i + 1] == '/'
+		|| buff[i + 1] == '\0')))
 		{
 			i++;
 			val = get_var_val("HOME", &end, head);

@@ -12,15 +12,15 @@
 
 #include "minishell.h"
 
-void    ft_echo(char **flag)
+void	ft_echo(char **flag)
 {
-	int i;
+	int	i;
 
 	i = 1;
 	if (flag[1] == NULL)
 	{
 		ft_putchar('\n');
-		return;
+		return ;
 	}
 	if (flag[1] && ft_strcmp(flag[1], "-n") == 0)
 		i++;
@@ -32,7 +32,7 @@ void    ft_echo(char **flag)
 		i++;
 	}
 	if (ft_strcmp(flag[1], "-n") == 0)
-		return;
+		return ;
 	else
 		ft_putchar('\n');
 }

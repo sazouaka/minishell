@@ -24,7 +24,7 @@ t_lst	*ft_get_node(char *str)
 		if (str[i] == '=')
 		{
 			node->name = ft_strsub(str, 0, i);
-			break;
+			break ;
 		}
 		i++;
 	}
@@ -33,11 +33,11 @@ t_lst	*ft_get_node(char *str)
 	return (node);
 }
 
-t_lst  *ft_env(char **env)
+t_lst	*ft_env(char **env)
 {
-	t_lst   *head;
-	t_lst   *node;
-	int     i;
+	t_lst	*head;
+	t_lst	*node;
+	int		i;
 
 	head = ft_get_node(PATH_D);
 	i = 0;
@@ -51,17 +51,17 @@ t_lst  *ft_env(char **env)
 	return (head);
 }
 
-void    ft_printlist(t_lst *head)
+void	ft_printlist(t_lst *head)
 {
-    t_lst   *node;
+	t_lst	*node;
 
-    node = head->next;
-    while (node)
-    {
-        ft_putstr(node->name);
+	node = head->next;
+	while (node)
+	{
+		ft_putstr(node->name);
 		ft_putchar('=');
 		ft_putstr(node->content);
 		ft_putchar('\n');
-        node = node->next;
-    }
+		node = node->next;
+	}
 }

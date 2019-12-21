@@ -20,7 +20,7 @@
 # include <sys/types.h>
 # include <signal.h>
 
-# define BUFF_SIZE 32
+# define BUFF_SIZE 50
 # define PATH_D "PATH_D=#"
 
 typedef struct		s_lst
@@ -46,5 +46,6 @@ char				**env_tab_(t_lst *head);
 void				ft_change_d(t_lst *head, char *str1, char *str2);
 void				free_tab(char **flag);
 int					verify_type(char *file);
+char				*get_var_val(char *str, int *end, t_lst *head);
 
 #endif

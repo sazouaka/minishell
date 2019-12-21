@@ -1,37 +1,56 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_cd_old.c                                        :+:      :+:    :+:   */
+/*   get_var_val.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sazouaka <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/03 16:51:31 by sazouaka          #+#    #+#             */
-/*   Updated: 2019/12/03 16:51:33 by sazouaka         ###   ########.fr       */
+/*   Created: 2019/12/21 03:08:25 by sazouaka          #+#    #+#             */
+/*   Updated: 2019/12/21 03:08:29 by sazouaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_cd_old(t_lst *head)
+char	*get_var_val_1(char *str, t_lst *head)
 {
-	char	*buff;
-	char	*old_d;
 	t_lst	*node;
 
 	node = head;
 	while (node)
 	{
-		if (ft_strcmp(node->name, "OLDPWD") == 0)
+		if (ft_strcmp(str, node->name) == 0)
 		{
-			buff = (char *)malloc(sizeof(char) * 1000);
-			old_d = node->content;
-			ft_change_d(head, "OLDPWD", getcwd(buff, 500));
-			chdir(old_d);
-			ft_change_d(head, "PWD", getcwd(buff, 500));
-			free(buff);
-			return ;
+			free(str);
+			return (node->content);
 		}
 		node = node->next;
 	}
-	ft_putstr(": No such file or directory.\n");
+	free(str);
+	return ("");
+}
+
+char	*get_var_val(char *str, int *end, t_lst *head)
+{
+	int		i;
+	char	*tmp;
+
+	i = 0;
+	if (ft_isalpha(str[0]) || str[0] == '_')
+		i++;
+	else
+	{
+		*end = 1;
+		return ("");
+	}
+	while (str[i])
+	{
+		if (ft_isalnum(str[i]) || str[i] == '_')
+			i++;
+		else
+			break ;
+	}
+	*end = i;
+	tmp = ft_strsub(str, 0, i);
+	return (get_var_val_1(tmp, head));
 }
