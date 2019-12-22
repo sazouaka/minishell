@@ -1,1 +1,1 @@
-gcc -Wall -Wextra -Werror  minishell.c get_next_line.c libft/libft.a ft_parse.c ft_env.c ft_path.c ft_exec.c ft_cd.c ft_cd_old.c ft_setenv.c ft_unsetenv.c ft_echo.c env_tab.c ft_change_d.c verify_type.c get_var_val.c ft_parse_len.c free_list.c free_tab.c main_2.c -o minishell
+gcc -Wall -Wextra -Werror  minishell.c get_next_line.c libft/libft.a ft_parse.c ft_env.c ft_path.c ft_exec.c ft_cd.c ft_cd_old.c ft_setenv.c ft_unsetenv.c ft_echo.c env_tab.c ft_change_d.c verify_type.c get_var_val.c ft_parse_len.c free_list.c free_tab.c main_2.c ft_quotes_dolar.c ft_len.c -o minishell

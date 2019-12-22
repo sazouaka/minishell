@@ -22,6 +22,8 @@
 
 # define BUFF_SIZE 50
 # define PATH_D "#PATH_D=#"
+# define NEXT_CHAR(i) (ft_isalnum(i) || i == '_')
+# define BUFF_CHAR(c) (c&&c!=39&&c!=34&&c!='$'&&c!='~'&&c!=' '&&c!='\t')
 
 typedef struct		s_lst
 {
@@ -29,6 +31,12 @@ typedef struct		s_lst
 	char			*content;
 	struct s_lst	*next;
 }					t_lst;
+
+typedef struct		s_point
+{
+	int				i;
+	int				j;
+}					t_point;
 
 int					get_next_line(const int fd, char **line);
 char				*ft_parse(char *buff, t_lst *head);
@@ -50,5 +58,10 @@ char				*get_var_val(char *str, int *end, t_lst *head);
 int					ft_parse_len(char *buff, t_lst *head);
 void				free_list(t_lst *head);
 void				main_2(char *tmp, t_lst *env_list);
+int					single_quote_1(char *buff, char *str, t_point *ps);
+int					double_quote_1(char *buf, char *s, t_lst *head, t_point *p);
+void				ft_dolar(char *buff, char *str, t_lst *head, t_point *ps);
+void				get_str(char *buff, char *str, t_point *ps);
+void				ft_len(int *i, int *len);
 
 #endif

@@ -12,116 +12,65 @@
 
 #include "minishell.h"
 
-char	*ft_parse(char *buff, t_lst *head)
+void	replace_space(char *str, t_point *ps)
 {
-	int		i;
-	int		j;
-	int		end;
-	char	*str;
-	char	*val;
+	str[ps->j] = 31;
+	(ps->j)++;
+	(ps->i)++;
+}
 
-	str = (char *)malloc(sizeof(char) * (ft_parse_len(buff, head) + 1));
-	i = 0;
-	j = 0;
-	while (buff[i])
+void	ft_tilde(char *str, t_lst *head, t_point *ps)
+{
+	char	*val;
+	int		end;
+
+	ps->i++;
+	val = get_var_val("HOME", &end, head);
+	end = 0;
+	while (val && val[end])
 	{
-		if (buff[i] && (buff[i] == ' ' || buff[i] == '\t'))
-		{
-			str[j] = 31;
-			j++;
-			i++;
-		}
-		else if (buff[i] == 39)
-		{
-			i++;
-			while (buff[i] && buff[i] != 39)
-			{
-				str[j] = buff[i];
-				j++;
-				i++;
-			}
-			if (buff[i] != 39)
-			{
-				ft_putstr("Unmatched '.\n");
-				free(str);
-				return (ft_strnew(0));
-			}
-			i++;
-		}
-		else if (buff[i] == 34)
-		{
-			i++;
-			while (buff[i] && buff[i] != 34)
-			{
-				if (buff[i] == '$' && (ft_isalnum(buff[i + 1])
-				|| buff[i + 1] == '_'))
-				{
-					i++;
-					val = get_var_val(&buff[i], &end, head);
-					i = i + end;
-					end = 0;
-					while (val[end])
-					{
-						str[j] = val[end];
-						end++;
-						j++;
-					}
-				}
-				else
-				{
-					str[j] = buff[i];
-					j++;
-					i++;
-				}
-			}
-			if (buff[i] != 34)
-			{
-				ft_putstr("Unmatched \".\n");
-				free(str);
-				return (ft_strnew(0));
-			}
-			i++;
-		}
-		else if (buff[i] == '$' && (ft_isalnum(buff[i + 1])
-		|| buff[i + 1] == '_'))
-		{
-			i++;
-			val = get_var_val(&buff[i], &end, head);
-			i = i + end;
-			end = 0;
-			while (val && val[end])
-			{
-				str[j] = val[end];
-				end++;
-				j++;
-			}
-		}
-		else if (buff[i] == '~' && ((buff[i - 1] == ' ' || i == 0)
-		&& (buff[i + 1] == ' ' || buff[i + 1] == '/'
-		|| buff[i + 1] == '\0')))
-		{
-			i++;
-			val = get_var_val("HOME", &end, head);
-			end = 0;
-			while (val && val[end])
-			{
-				str[j] = val[end];
-				end++;
-				j++;
-			}
-		}
-		else
-		{
-			str[j] = buff[i];
-			i++;
-			j++;
-		}
+		str[ps->j] = val[end];
+		end++;
+		ps->j++;
 	}
+}
+
+int		empty_flag(char *str, int j)
+{
 	str[j] = '\0';
 	if (j == 0)
 	{
 		free(str);
-		return (NULL);
+		return (1);
 	}
+	return (0);
+}
+
+char	*ft_parse(char *buff, t_lst *head)
+{
+	t_point ps;
+	char	*str;
+
+	str = (char *)malloc(sizeof(char) * (ft_parse_len(buff, head) + 1));
+	ps = (t_point){0, 0};
+	while (buff[ps.i])
+	{
+		if (buff[ps.i] == 39 && single_quote_1(buff, str, &ps))
+			return (ft_strnew(0));
+		else if (buff[ps.i] == 34 && double_quote_1(buff, str, head, &ps))
+			return (ft_strnew(0));
+		else if (buff[ps.i] && (buff[ps.i] == ' ' || buff[ps.i] == '\t'))
+			replace_space(str, &ps);
+		else if (buff[ps.i] == '$' && NEXT_CHAR(buff[ps.i + 1]))
+			ft_dolar(buff, str, head, &ps);
+		else if (buff[ps.i] == '~' && ((buff[ps.i - 1] == ' ' || ps.i == 0)
+		&& (buff[ps.i + 1] == ' ' || buff[ps.i + 1] == '/'
+		|| buff[ps.i + 1] == '\0')))
+			ft_tilde(str, head, &ps);
+		else if (BUFF_CHAR(buff[ps.i]))
+			get_str(buff, str, &ps);
+	}
+	if (empty_flag(str, ps.j))
+		return (NULL);
 	return (str);
 }

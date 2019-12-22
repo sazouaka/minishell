@@ -34,9 +34,7 @@ char	*ft_access(char **paths, char **flag)
 	if (access(flag[0], F_OK) == 0 && verify_type(flag[0]) == 2
 	&& is_path(flag[0]))
 		return (flag[0]);
-	if (!paths)
-		return (NULL);
-	if (verify_type(flag[0]) == 1)
+	if (!paths || is_path(flag[0]) || verify_type(flag[0]) == 1)
 		return (NULL);
 	i = 0;
 	while (paths[i])
