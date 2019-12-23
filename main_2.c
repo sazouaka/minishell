@@ -60,6 +60,7 @@ void	main_2(char *tmp, t_lst *env_list)
 
 	if (tmp == NULL)
 	{
+		g_sign = 0;
 		ft_putstr("./minishell: permission denied:\n");
 		return ;
 	}
@@ -72,6 +73,7 @@ void	main_2(char *tmp, t_lst *env_list)
 	}
 	else
 	{
+		g_sign = 0;
 		ft_builtins_1(flag, env_list);
 		free_tab(flag);
 	}

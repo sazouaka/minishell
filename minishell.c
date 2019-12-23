@@ -52,6 +52,7 @@ int		main(int ac, char **av, char **env)
 		get_next_line(0, &buff);
 		if (ft_strcmp(buff, "") == 0)
 		{
+			g_sign = 0;
 			free(buff);
 			continue;
 		}

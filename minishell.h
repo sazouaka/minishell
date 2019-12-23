@@ -25,6 +25,8 @@
 # define NEXT_CHAR(i) (ft_isalnum(i) || i == '_')
 # define BUFF_CHAR(c) (c&&c!=39&&c!=34&&c!='$'&&c!='~'&&c!=' '&&c!='\t')
 
+extern int		g_sign;
+
 typedef struct		s_lst
 {
 	char			*name;
