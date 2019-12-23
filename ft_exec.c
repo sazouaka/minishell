@@ -48,6 +48,13 @@ char	*ft_access(char **paths, char **flag)
 	return (NULL);
 }
 
+void	ft_fork_fail(char *cmd_path)
+{
+	ft_putstr("fork failed\n");
+	free(cmd_path);
+	exit(1);
+}
+
 void	ft_exec_1(char *cmd_path, char **flag, t_lst *env_list)
 {
 	pid_t	pid;
@@ -57,14 +64,12 @@ void	ft_exec_1(char *cmd_path, char **flag, t_lst *env_list)
 	{
 		ft_putstr(cmd_path);
 		ft_putstr(": permission denied.\n");
+		free(cmd_path);
 		return ;
 	}
 	pid = fork();
 	if (fork < 0)
-	{
-		ft_putstr("fork failed\n");
-		exit(1);
-	}
+		ft_fork_fail(cmd_path);
 	else if (pid == 0)
 	{
 		env_tab = env_tab_(env_list);
