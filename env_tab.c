@@ -33,7 +33,8 @@ char	**env_tab_(t_lst *head)
 	t_lst	*node;
 	int		i;
 
-	env_tab = (char **)malloc(sizeof(char *) * (ft_count(head) + 1));
+	if (!(env_tab = (char **)malloc(sizeof(char *) * (ft_count(head) + 1))))
+		return (NULL);
 	node = head->next;
 	i = 0;
 	while (node)
