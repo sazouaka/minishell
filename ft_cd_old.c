@@ -25,7 +25,8 @@ void	ft_cd_old(t_lst *head)
 		{
 			buff = (char *)malloc(sizeof(char) * 1000);
 			old_d = node->content;
-			ft_change_d(head, "OLDPWD", getcwd(buff, 500));
+			if (getcwd(buff, 500))
+				ft_change_d(head, "OLDPWD", getcwd(buff, 500));
 			chdir(old_d);
 			ft_change_d(head, "PWD", getcwd(buff, 500));
 			free(buff);

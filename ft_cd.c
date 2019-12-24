@@ -39,7 +39,8 @@ void	ft_cd_home(t_lst *head)
 	{
 		if (ft_strcmp(node->name, "HOME") == 0)
 		{
-			ft_change_d(head, "OLDPWD", getcwd(buff, 500));
+			if (getcwd(buff, 500))
+				ft_change_d(head, "OLDPWD", getcwd(buff, 500));
 			chdir(node->content);
 			ft_change_d(head, "PWD", getcwd(buff, 500));
 			free(buff);
@@ -58,7 +59,8 @@ void	ft_cd_1(char **flag, t_lst *head)
 	if (ft_pdenied(flag))
 		return ;
 	buff = (char *)malloc(sizeof(char) * 1000);
-	ft_change_d(head, "OLDPWD", getcwd(buff, 500));
+	if (getcwd(buff, 500))
+		ft_change_d(head, "OLDPWD", getcwd(buff, 500));
 	chdir(flag[1]);
 	ft_change_d(head, "PWD", getcwd(buff, 500));
 	free(buff);
